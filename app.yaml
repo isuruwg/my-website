@@ -11,3 +11,13 @@ handlers:
   # the entire handlers section) when there are no static files defined.
 - url: /.*
   script: auto
+
+automatic_scaling:
+  min_num_instances: 2
+  max_num_instances: 5
+  cool_down_period_sec: 180
+
+resources:
+  cpu: 1
+  memory_gb: 0.6
+  disk_size_gb: 10
