@@ -12,8 +12,8 @@ handlers:
 - url: /.*
   script: auto
 
-basic_scaling:
-  max_instances: 5
-  idle_timeout: 10m
+# basic_scaling:
+#   max_instances: 5
+#   idle_timeout: 10m
 
-instance_class: B1
+# instance_class: B1
