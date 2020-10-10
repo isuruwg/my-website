@@ -3,11 +3,8 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 
 bootstrap = Bootstrap()
-def create_app(config_type): # dev, test or prod
+def create_app(): 
     app = Flask(__name__)
-    # configuration = os.path.join(os.getcwd(), 'config', config_type + '.py')
-
-    # app.config.from_pyfile(configuration)
 
     bootstrap.init_app(app) # initialize bootstrap
     
