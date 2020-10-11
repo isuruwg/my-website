@@ -1,4 +1,5 @@
 /venv
+/venv-dev
 /config
 *__pycache__*
 *.vscode*
