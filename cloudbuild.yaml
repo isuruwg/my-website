@@ -18,6 +18,6 @@ steps:
   - 'flake8'
   - '--append-config'
   - '.flake8'
-  - 'app/'
+  - 'app/ main.py'
   waitFor:
   - INSTALL
