@@ -11,10 +11,7 @@ steps:
   - '-r'
   - 'requirements/dev.txt'
 - name: python:3.8
-  entrypoint: python3
+  entrypoint: flake8
   id: RUN-LINTER-CHECK
-  args:
-  - '-m'
-  - 'flake8'
   waitFor:
   - INSTALL
