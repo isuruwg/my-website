@@ -1,0 +1,5 @@
+# These are the requirements for ../venv-dev/ virtual environment
+# This combines the venv-dev file created by pip freeze on venv-dev environment and any other missing dependencies from production
+-r common.txt
+-r venv-dev-freeze.txt
+
