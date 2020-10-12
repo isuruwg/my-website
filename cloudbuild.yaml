@@ -19,5 +19,6 @@ steps:
   - '--append-config'
   - '.flake8'
   - 'app/'
+  - 'main.py'
   waitFor:
   - INSTALL
