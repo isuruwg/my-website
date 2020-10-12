@@ -1,5 +1,5 @@
 [flake8]
-ignore = E501
+ignore = E501, E308
 extend-ignore = E402, F401 ./app/core/__init__.py
 exclude = 
     ./venv,
