@@ -10,6 +10,7 @@ steps:
   - '.'
   - '-r'
   - 'requirements/dev.txt'
+  
 - name: python:3.8
   entrypoint: python3
   id: RUN-LINTER-CHECK
@@ -22,12 +23,17 @@ steps:
   - 'main.py'
   waitFor:
   - INSTALL
-# - name: python:3.8
-#   entrypoint: bandit
-#   id: RUN-BANDIT-SECURITY-CHECK
-#   args:
-#   - '-r'
-#   - 'app/'
-#   - 'main.py'
-#   waitFor:
-#   - INSTALL
+
+- name: python:3.8
+  entrypoint: bash
+  id: RUN-BANDIT-SECURITY-CHECK
+  args:
+  - '-c'
+  - 'python3'
+  - '-m'
+  - 'bandit'
+  - '-r'
+  - 'app/'
+  - 'main.py'
+  waitFor:
+  - INSTALL
