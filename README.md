@@ -1,3 +1,6 @@
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+
 # 1. personal-website
 
 - [1. personal-website](#1-personal-website)
@@ -54,6 +57,10 @@ Now we'll create another virtual environment and requirements file in order to k
     ```
     pip install flake8
     pip install bandit
+    pip install safety
+    pip install pytest
+    pip install coverage
+    pip install black
     ```
 - Create the following files: 
   - `pip freeze > requirements/venv-dev-freeze.txt`

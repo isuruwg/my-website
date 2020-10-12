@@ -4,9 +4,9 @@ from flask import render_template
 
 @core.app_errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template("404.html"), 404
 
 
-@core.route('/')
+@core.route("/")
 def home_page():
-    return render_template('home.html')
+    return render_template("home.html")

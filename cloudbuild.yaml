@@ -10,7 +10,7 @@ steps:
   - '.'
   - '-r'
   - 'requirements/dev.txt'
-  
+
 - name: python:3.8
   entrypoint: python3
   id: RUN-LINTER-CHECK
@@ -18,7 +18,7 @@ steps:
   - '-m'
   - 'flake8'
   - '--append-config'
-  - '.flake8'
+  - '.setup.cfg'
   - 'app/'
   - 'main.py'
   waitFor:
@@ -35,5 +35,33 @@ steps:
   - '-r'
   - 'app/'
   - 'main.py'
+  waitFor:
+  - INSTALL
+
+- name: python:3.8
+  entrypoint: bash
+  id: RUN-SAFETY-PROD-CHECK
+  args:
+  - '-c'
+  - 'python3'
+  - '-m'
+  - 'safety'
+  - 'check'
+  - '-r'
+  - 'requirements.txt'
+  waitFor:
+  - INSTALL
+
+- name: python:3.8
+  entrypoint: bash
+  id: RUN-SAFETY-DEV-CHECK
+  args:
+  - '-c'
+  - 'python3'
+  - '-m'
+  - 'safety'
+  - 'check'
+  - '-r'
+  - 'requirements/dev.txt'
   waitFor:
   - INSTALL
