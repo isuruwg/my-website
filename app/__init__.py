@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap
 
 bootstrap = Bootstrap()
 
-
 def create_app():
     app = Flask(__name__)
 
