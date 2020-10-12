@@ -1,15 +1,18 @@
 # 1. personal-website
 
 - [1. personal-website](#1-personal-website)
-- [2. Create a basic flask app with a Navbar](#2-create-a-basic-flask-app-with-a-navbar)
+- [2. Set up instructions for setting things up from scratch](#2-set-up-instructions-for-setting-things-up-from-scratch)
   - [2.1. Virtual environments](#21-virtual-environments)
     - [2.1.1. Production virtual environment](#211-production-virtual-environment)
     - [2.1.2. Development and Testing virtual environment](#212-development-and-testing-virtual-environment)
+- [3. CloudBuild](#3-cloudbuild)
 
 
-My personal website
+This GitHub repository contains the code used in my personal website [isuru.ca](isuru.ca)
 
-# 2. Create a basic flask app with a Navbar
+# 2. Set up instructions for setting things up from scratch
+
+As the title suggests, this is for someone who wants to set things up from scratch and understand how things work. If you already cloned this repo from my GitHub and want to just run this, you don't have to run the steps here. Go directly to section 3.
 
 ## 2.1. Virtual environments
 
@@ -60,3 +63,9 @@ Now we'll create another virtual environment and requirements file in order to k
     -r common.txt
     -r venv-dev-freeze.txt
     ```
+
+# 3. CloudBuild
+
+I'm using Google CloudBuild to run tests and then deploy my app to GCP AppEngine automatically. The tests are defined in [cloudbuild.yaml](./cloudbuild.yaml)
+
+You can run CloudBuild locally by installing the necessary packages as shown in the [GCP official guide](https://cloud.google.com/cloud-build/docs/build-debug-locally) and then running `cloud-build-local --dryrun=false .` from the top level folder.
