@@ -22,3 +22,12 @@ steps:
   - 'main.py'
   waitFor:
   - INSTALL
+# - name: python:3.8
+#   entrypoint: bandit
+#   id: RUN-BANDIT-SECURITY-CHECK
+#   args:
+#   - '-r'
+#   - 'app/'
+#   - 'main.py'
+#   waitFor:
+#   - INSTALL

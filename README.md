@@ -53,6 +53,7 @@ Now we'll create another virtual environment and requirements file in order to k
 - Install the following development only dependencies:
     ```
     pip install flake8
+    pip install bandit
     ```
 - Create the following files: 
   - `pip freeze > requirements/venv-dev-freeze.txt`
