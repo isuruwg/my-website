@@ -9,6 +9,8 @@
     - [2.1.1. Production virtual environment](#211-production-virtual-environment)
     - [2.1.2. Development and Testing virtual environment](#212-development-and-testing-virtual-environment)
 - [3. CloudBuild](#3-cloudbuild)
+- [4. Black](#4-black)
+- [5. PyTest](#5-pytest)
 
 
 This GitHub repository contains the code used in my personal website [isuru.ca](isuru.ca)
@@ -77,3 +79,16 @@ Now we'll create another virtual environment and requirements file in order to k
 I'm using Google CloudBuild to run tests and then deploy my app to GCP AppEngine automatically. The tests are defined in [cloudbuild.yaml](./cloudbuild.yaml)
 
 You can run CloudBuild locally by installing the necessary packages as shown in the [GCP official guide](https://cloud.google.com/cloud-build/docs/build-debug-locally) and then running `cloud-build-local --dryrun=false .` from the top level folder.
+
+# 4. Black
+I use Python Black to do code formatting. Run black by doing `black .` on the top folder after activating the `venv-dev` environment.
+
+# 5. PyTest
+
+Run `PyTest` by running `pytest` on the top level folder. The tests are defined in the [/tests](/tests) folder.
+
+You can do `coverage run -m pytest` to get the coverage report.
+
+Coverage report can be viewed by:
+- `coverage report` : Shows a report in the terminal
+- `coverage html` : creates a html coverage report. You can open this in your favourite browser. eg: `firefox htmlcov/index.html`

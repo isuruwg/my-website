@@ -25,11 +25,9 @@ steps:
   - INSTALL
 
 - name: python:3.8
-  entrypoint: bash
+  entrypoint: python3
   id: RUN-BANDIT-SECURITY-CHECK
   args:
-  - '-c'
-  - 'python3'
   - '-m'
   - 'bandit'
   - '-r'
@@ -39,11 +37,9 @@ steps:
   - INSTALL
 
 - name: python:3.8
-  entrypoint: bash
+  entrypoint: python3
   id: RUN-SAFETY-PROD-CHECK
   args:
-  - '-c'
-  - 'python3'
   - '-m'
   - 'safety'
   - 'check'
@@ -53,11 +49,9 @@ steps:
   - INSTALL
 
 - name: python:3.8
-  entrypoint: bash
+  entrypoint: python3
   id: RUN-SAFETY-DEV-CHECK
   args:
-  - '-c'
-  - 'python3'
   - '-m'
   - 'safety'
   - 'check'
@@ -65,3 +59,26 @@ steps:
   - 'requirements/dev.txt'
   waitFor:
   - INSTALL
+
+- name: python:3.8
+  entrypoint: python3
+  id: RUN-PYTEST
+  args:
+  - '-m'
+  - 'coverage'
+  - 'run'
+  - '-m'
+  - 'pytest'
+  waitFor:
+  - INSTALL
+
+- name: python:3.8
+  entrypoint: python3
+  id: RUN-COVERAGE
+  args:
+  - '-m'
+  - 'coverage'
+  - 'report'
+  - '--fail-under=80'
+  waitFor:
+  - RUN-PYTEST
