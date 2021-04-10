@@ -11,6 +11,10 @@
 - [3. CloudBuild](#3-cloudbuild)
 - [4. Black](#4-black)
 - [5. PyTest](#5-pytest)
+- [6. Safety tests and upgrading](#6-safety-tests-and-upgrading)
+  - [6.1. Test production packages](#61-test-production-packages)
+  - [6.2. Test development packages](#62-test-development-packages)
+  - [6.3. Run cloudbuild locally to see if everything looks good](#63-run-cloudbuild-locally-to-see-if-everything-looks-good)
 
 
 This GitHub repository contains the code used in my personal website [isuru.ca](isuru.ca)
@@ -92,3 +96,32 @@ You can do `coverage run -m pytest` to get the coverage report.
 Coverage report can be viewed by:
 - `coverage report` : Shows a report in the terminal
 - `coverage html` : creates a html coverage report. You can open this in your favourite browser. eg: `firefox htmlcov/index.html`
+
+# 6. Safety tests and upgrading
+
+## 6.1. Test production packages
+
+```bash
+. ./venv-dev/bin/activate
+python -m safety check -r requirements.txt
+```
+Upgrade the affected versions by:
+
+```bash
+# deactivate # deactivate virtual environment if a different one was active
+. ./venv/bin/activate
+pip install -U <AFFECTED PACKAGES>
+pip freeze > requirements/common.txt
+```
+
+## 6.2. Test development packages
+
+```bash
+python -m safety check -r requirements/dev.txt
+pip install -U <AFFECTED PACKAGES>
+pip freeze > requirements/venv-dev-freeze.txt
+```
+
+## 6.3. Run cloudbuild locally to see if everything looks good
+
+`cloud-build-local --dryrun=false .`
