@@ -82,7 +82,32 @@ Now we'll create another virtual environment and requirements file in order to k
 
 I'm using Google CloudBuild to run tests and then deploy my app to GCP AppEngine automatically. The tests are defined in [cloudbuild.yaml](./cloudbuild.yaml)
 
-You can run CloudBuild locally by installing the necessary packages as shown in the [GCP official guide](https://cloud.google.com/cloud-build/docs/build-debug-locally) and then running `cloud-build-local --dryrun=false .` from the top level folder.
+You can run CloudBuild locally by installing the necessary packages as shown in the [GCP official guide](https://cloud.google.com/cloud-build/docs/build-debug-locally) and then running `cloud-build-local --dryrun=false .` from the top level folder. The commands to do this as of 2022-03-19 are listed below for convenience:
+
+1. Install Google Cloud CLI
+    ```bash
+    sudo apt-get install apt-transport-https ca-certificates gnupg
+    # Add the deb package source
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+    # Import the public key
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+    # Install the google cloud cli
+    sudo apt-get update && sudo apt-get install google-cloud-cli
+    ```
+2. Install Docker
+3. Install the local builder  
+    NOTE: As of 2022-03-19, the [official instructions](https://cloud.google.com/build/docs/build-debug-locally#apt-get) are outdated. The package name should be `google-cloud-cli-cloud-build-local` and not `google-cloud-sdk-cloud-build-local`. [REF: NOTE: For releases prior to 371.0.0, the package name is google-cloud-sdk](https://cloud.google.com/sdk/docs/install#deb)
+    ```bash
+    sudo apt-get install google-cloud-cli-cloud-build-local
+    ``` 
+4. Log in using `gcloud auth login` (You can do `gcloud auth list` to see if you have already logged in)
+5. List the available projects: `gcloud projects list`
+6. Create a new project in the console if you haven't already done so
+7. Set project: `gcloud config set project PROJECT_ID`
+8. Create an app engine app by: `gcloud app create` (If you haven't already done so)
+9. Navigate to the folder containing your [cloudbuild.yaml](cloudbuild.yaml) file and run Cloud build: `cloud-build-local --dryrun=false .`. Note: If you run docker in rootless mode, this will fail, there's currently an open issue [here](https://github.com/GoogleCloudPlatform/cloud-build-local/issues/116)
+    
+
 
 # 4. Black
 I use Python Black to do code formatting. Run black by doing `black .` on the top folder after activating the `venv-dev` environment.
@@ -124,4 +149,4 @@ pip freeze > requirements/venv-dev-freeze.txt
 
 ## 6.3. Run cloudbuild locally to see if everything looks good
 
-`cloud-build-local --dryrun=false .`
+`cloud-build-local --dryrun=false .`  (Refer to [3. CloudBuild](#3-cloudbuild) for more info)
