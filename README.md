@@ -7,6 +7,7 @@
 - [2. Set up instructions for setting things up from scratch](#2-set-up-instructions-for-setting-things-up-from-scratch)
   - [2.1. Python environment management](#21-python-environment-management)
     - [2.1.1. First time environment setup using Poetry](#211-first-time-environment-setup-using-poetry)
+  - [Pre-commit](#pre-commit)
 - [3. CloudBuild](#3-cloudbuild)
 - [4. Black](#4-black)
 - [5. PyTest](#5-pytest)
@@ -48,7 +49,14 @@ poetry shell
 python main.py
 ```
 
+## Pre-commit
 
+```bash
+# pre-commit is added to poetry as a dev dependency. poetry add pre-commit --dev (This step has already been done)
+
+# Install pre-commit
+pre-commit install --allow-missing-config
+```
 
 # 3. CloudBuild
 
