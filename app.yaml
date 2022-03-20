@@ -7,11 +7,11 @@ handlers:
   static_dir: app/static
 
 - url: /favicon\.ico
-  static_files: app/static/favicon.ico
-  upload: app/static/favicon.ico
+  static_files: app/static/favicon\.ico
+  upload: app/static/favicon\.ico
 
-- url: /cv.pdf
-  static_files: app/static/cv.pdf
+- url: /cv\.pdf
+  static_files: app/static/cv\.pdf
   upload: app/static/cv\.pdf
 
   # This handler routes all requests not caught above to your main app. It is
