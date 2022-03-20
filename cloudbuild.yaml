@@ -9,7 +9,7 @@ steps:
   - '-t'
   - '.'
   - '-r'
-  - 'requirements/dev.txt'
+  - 'requirements-dev.txt'
 
 - name: python:3.8
   entrypoint: python3
