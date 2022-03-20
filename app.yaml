@@ -8,7 +8,7 @@ handlers:
 
 - url: /favicon\.ico
   static_files: app/static/favicon.ico
-  upload: app/static/favicon\.ico
+  upload: app/static/favicon.ico
 
 - url: /cv.pdf
   static_files: app/static/cv.pdf
