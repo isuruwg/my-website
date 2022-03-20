@@ -56,7 +56,7 @@ steps:
   - 'safety'
   - 'check'
   - '-r'
-  - 'requirements/dev.txt'
+  - 'requirements-dev.txt'
   waitFor:
   - INSTALL
 
