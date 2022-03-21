@@ -1,18 +1,23 @@
 repos:
-- repo: local
-  hooks:
-  - id: update-requirements-txt
-    name: update-requirements-txt
-    description: 'Generate requirements.txt based on poetry.lock'
-    entry: bash -c 'poetry export --without-hashes --format "requirements.txt" --output "requirements.txt"'
-    language: system
-    pass_filenames: false
+  - repo: local
+    hooks:
+    - id: update-requirements-txt
+      name: update-requirements-txt
+      description: 'Generate requirements.txt based on poetry.lock'
+      entry: bash -c 'poetry export --without-hashes --format "requirements.txt" --output "requirements.txt"'
+      language: system
+      pass_filenames: false
 
-- repo: local
-  hooks:
-  - id: update--dev-requirements-txt
-    name: update--dev-requirements-txt
-    description: 'Generate requirements-dev.txt based on poetry.lock'
-    entry: bash -c 'poetry export --dev --without-hashes --format "requirements.txt" --output "requirements-dev.txt"'
-    language: system
-    pass_filenames: false
+  - repo: local
+    hooks:
+    - id: update--dev-requirements-txt
+      name: update--dev-requirements-txt
+      description: 'Generate requirements-dev.txt based on poetry.lock'
+      entry: bash -c 'poetry export --dev --without-hashes --format "requirements.txt" --output "requirements-dev.txt"'
+      language: system
+      pass_filenames: false
+
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.5.0
+    hooks:
+      - id: gitleaks
