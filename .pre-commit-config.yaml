@@ -17,7 +17,19 @@ repos:
       language: system
       pass_filenames: false
 
+  # Check for hardcoded passwords, keys, tokens
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.5.0
     hooks:
       - id: gitleaks
+
+  # convert app/core/templates/markdown/*.html to app/core/templates/markdown/*.md
+  # Please make sure you have pandoc installed (sudo apt install pandoc)
+  - repo: local
+    hooks:
+    - id: convert-home-md-to-html
+      name: convert-home-md-to-html
+      description: 'convert app/core/markdown/*.md to app/core/markdown/*.html'
+      entry: bash -c 'pandoc -o app/core/templates/markdown/*.html app/core/templates/markdown/*.md'
+      language: system
+      pass_filenames: false
