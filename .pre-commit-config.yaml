@@ -27,9 +27,20 @@ repos:
   # Please make sure you have pandoc installed (sudo apt install pandoc)
   - repo: local
     hooks:
-    - id: convert-home-md-to-html
-      name: convert-home-md-to-html
+    - id: convert-core-md-to-html
+      name: convert-core-md-to-html
       description: 'convert app/core/markdown/*.md to app/core/markdown/*.html'
       entry: bash -c 'pandoc -o app/core/templates/markdown/*.html app/core/templates/markdown/*.md'
+      language: system
+      pass_filenames: false
+
+  # convert app/blog/templates/markdown/*.html to app/blog/templates/markdown/*.md
+  # Please make sure you have pandoc installed (sudo apt install pandoc)
+  - repo: local
+    hooks:
+    - id: convert-blog-md-to-html
+      name: convert-blog-md-to-html
+      description: 'convert app/blog/markdown/*.md to app/blog/markdown/*.html'
+      entry: bash -c 'pandoc -o app/blog/templates/markdown/*.html app/blog/templates/markdown/*.md'
       language: system
       pass_filenames: false

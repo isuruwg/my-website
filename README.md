@@ -1,7 +1,9 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 
-# personal-website <!-- omit in toc -->
+# Personal website <!-- omit in toc -->
+
+This GitHub repository contains the code used in my personal website [isuru.ca](https://isuru.ca/)
 
 Currently, this is a mostly static website. This doesn't technically need to be hosted on GCP and it also doesn't have to be a Flask app (There are much easier ways to host static websites). I just had some extra GCP credits and also want to be able to extend this in the future with more cooler things (eg: logging into my home automation system)
 
@@ -20,11 +22,9 @@ Currently, this is a mostly static website. This doesn't technically need to be 
   - [5.3. Run cloudbuild locally to see if everything looks good](#53-run-cloudbuild-locally-to-see-if-everything-looks-good)
 
 
-This GitHub repository contains the code used in my personal website [isuru.ca](isuru.ca)
+
 
 # 1. Set up instructions for setting things up from scratch
-
-As the title suggests, this is for someone who wants to set things up from scratch and understand how things work. If you already cloned this repo from my GitHub and want to just run this, you don't have to run the steps here. Go directly to section 3.
 
 ## 1.1. Python environment management
 
@@ -110,24 +110,21 @@ Coverage report can be viewed by:
 ## 5.1. Test production packages
 
 ```bash
-. ./venv-dev/bin/activate
+poetry shell
 python -m safety check -r requirements.txt
 ```
 Upgrade the affected versions by:
 
 ```bash
-# deactivate # deactivate virtual environment if a different one was active
-. ./venv/bin/activate
-pip install -U <AFFECTED PACKAGES>
-pip freeze > requirements/common.txt
+poetry update --no-dev
 ```
 
 ## 5.2. Test development packages
 
 ```bash
-python -m safety check -r requirements/dev.txt
-pip install -U <AFFECTED PACKAGES>
-pip freeze > requirements/venv-dev-freeze.txt
+poetry shell
+python -m safety check -r requirements-dev.txt
+poetry update
 ```
 
 ## 5.3. Run cloudbuild locally to see if everything looks good

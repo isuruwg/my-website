@@ -12,4 +12,8 @@ def create_app():
 
     app.register_blueprint(projects)
 
+    from app.blog import blog
+
+    app.register_blueprint(blog)
+
     return app

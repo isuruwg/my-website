@@ -1,14 +1,6 @@
 # About me <!-- omit in toc -->
 
-I'm a machine learning engineer with diverse experience in machine learning, CI/CD, Kubernetes, Agile/SCRUM and leading highly performant teams.
-
-# TOC <!-- omit in toc -->
-
-- [1. External links](#1-external-links)
-- [2. CV](#2-cv)
-- [Source for this website](#source-for-this-website)
-
-# 1. External links
+I'm a machine learning engineer with diverse experience in machine learning, CI/CD, Kubernetes, Agile/SCRUM and leading high performing teams.
 
 You can find more details about me at:
 
@@ -16,7 +8,12 @@ You can find more details about me at:
 [GitHub](https://github.com/isuruwg)  
 [LinkedIn](https://www.linkedin.com/in/isurug/)
 
-# 2. CV
+# TOC <!-- omit in toc -->
+
+- [1. CV](#1-cv)
+- [2. Source for this website](#2-source-for-this-website)
+
+# 1. CV
 
 <object data="https://isuru.ca/cv.pdf" type="application/pdf" width="700px" height="700px">
     <embed src="https://isuru.ca/cv.pdf">
@@ -24,7 +21,7 @@ You can find more details about me at:
     </embed>
 </object>
 
-# Source for this website
+# 2. Source for this website
 
 The source for this website can be found [here](https://github.com/isuruwg/personal-website) 
 
