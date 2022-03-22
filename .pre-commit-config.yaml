@@ -47,11 +47,11 @@ repos:
 
   # Create base links for the blog
   # Please make sure tree is installed (sudo apt install tree)
-  # - repo: local
-  #   hooks:
-  #   - id: create-blog-base-page
-  #     name: create-blog-base-page
-  #     description: 'Create the base links for the blog home page based on files inside app/blog/templates/markdown/'
-  #     entry: bash -c 'cd app/blog/templates/markdown/ && tree -H 'https://isuru.ca/blog' --noreport --charset utf-8 -P "*.html" -I "blog_index.html" -o blog_index.html'
-  #     language: system
-  #     pass_filenames: false
+  - repo: local
+    hooks:
+    - id: create-blog-base-page
+      name: create-blog-base-page
+      description: 'Create the base links for the blog home page based on files inside app/blog/templates/markdown/'
+      entry: bash -c 'cd app/blog/templates/markdown/ && tree -H 'https://isuru.ca/blog' --noreport --charset utf-8 -P "*.html" -I "blog_index.html" -o ../blog_index.html'
+      language: system
+      pass_filenames: false
