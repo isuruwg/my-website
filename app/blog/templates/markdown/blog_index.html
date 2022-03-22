@@ -1,0 +1,249 @@
+<h1 id="tutorial-on-how-to-use-dvc-and-mlflow">Tutorial on how to use DVC and MLFlow</h1>
+<p>The code for this tutorial can be found <a href="https://github.com/isuruwg/dvc-and-mlflow-tutorial">here</a></p>
+<h1 id="toc">TOC</h1>
+<ul>
+<li><a href="#1-an-example-using-dvc-and-mlflow">1. An example using DVC and MLFlow</a>
+<ul>
+<li><a href="#11-environment-setup">1.1. Environment setup</a></li>
+<li><a href="#12-initialize-dvc">1.2. Initialize DVC</a></li>
+<li><a href="#13-configure-remote-storage">1.3. Configure remote storage</a></li>
+<li><a href="#14-copy-some-data-and-let-dvc-manage-it">1.4. Copy some data and let dvc manage it</a></li>
+<li><a href="#15-fetching-data-from-remote">1.5. Fetching data from remote</a></li>
+<li><a href="#16-modifying-data">1.6. Modifying data</a></li>
+<li><a href="#17-using-different-data-versions">1.7. Using different data versions</a>
+<ul>
+<li><a href="#171-in-python">1.7.1. In python</a></li>
+<li><a href="#172-using-dvc-command-line">1.7.2. Using dvc command line</a></li>
+</ul></li>
+<li><a href="#18-usage-with-mlflow">1.8. Usage with MLFlow</a></li>
+</ul></li>
+<li><a href="#2-appendix">2. Appendix</a>
+<ul>
+<li><a href="#21-setting-up-python-environment-from-scratch">2.1. Setting up Python environment from scratch</a></li>
+<li><a href="#22-setting-up-gsutil-if-you-are-using-gcp-storage-as-a-remote">2.2. Setting up gsutil if you are using GCP storage as a remote</a></li>
+</ul></li>
+<li><a href="#3-references">3. References</a></li>
+</ul>
+<h1 id="an-example-using-dvc-and-mlflow">1. An example using DVC and MLFlow</h1>
+<p>This is based on <a href="https://www.youtube.com/watch?v=W2DvpCYw22o&amp;t">Data Versioning and Reproducible ML with DVC and MLflow - Youtube</a>.</p>
+<p>This is just one example on how to use DVC and MLFlow. These tools can be used in many other ways. Please refer to the <a href="https://dvc.org/doc/start">dvc</a> and <a href="https://www.mlflow.org/docs/latest/tutorials-and-examples/tutorial.html">mlflow</a> official tutorials for more info.</p>
+<h2 id="environment-setup">1.1. Environment setup</h2>
+<p>This tutorial was tested with Python 3.9.2.</p>
+<p>Create virtual environment:</p>
+<div id="cb1" class="sourceCode">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="ex">python</span> -m venv venv</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="bu">.</span> <span class="ex">./venv/bin/activate</span></a></code></pre></div>
+</div>
+<p>Install requirements:</p>
+<div id="cb2" class="sourceCode">
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">pip</span> install -r requirements.txt</a></code></pre></div>
+</div>
+<h2 id="initialize-dvc">1.2. Initialize DVC</h2>
+<p>This guide assumes you are already inside a git repo. If not, please initialize a git repo by doing <code>git init</code> or some other method.</p>
+<p>Run:</p>
+<div id="cb3" class="sourceCode">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="ex">dvc</span> init</a></code></pre></div>
+</div>
+<p>This initializes dvc and also adds some of the newly created files to git staging.</p>
+<p>If you run <code>git status</code> it’ll show something like:</p>
+<div id="cb4" class="sourceCode">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" title="1"><span class="ex">Changes</span> to be committed:</a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git restore --staged &lt;file&gt;...&quot;</span> to unstage<span class="kw">)</span></a>
+<a class="sourceLine" id="cb4-3" title="3">        <span class="ex">new</span> file:   .dvc/.gitignore</a>
+<a class="sourceLine" id="cb4-4" title="4">        <span class="ex">new</span> file:   .dvc/config</a>
+<a class="sourceLine" id="cb4-5" title="5">        <span class="ex">new</span> file:   .dvc/plots/confusion.json</a>
+<a class="sourceLine" id="cb4-6" title="6">        <span class="ex">new</span> file:   .dvc/plots/confusion_normalized.json</a>
+<a class="sourceLine" id="cb4-7" title="7">        <span class="ex">new</span> file:   .dvc/plots/default.json</a>
+<a class="sourceLine" id="cb4-8" title="8">        <span class="ex">new</span> file:   .dvc/plots/linear.json</a>
+<a class="sourceLine" id="cb4-9" title="9">        <span class="ex">new</span> file:   .dvc/plots/scatter.json</a>
+<a class="sourceLine" id="cb4-10" title="10">        <span class="ex">new</span> file:   .dvc/plots/smooth.json</a>
+<a class="sourceLine" id="cb4-11" title="11">        <span class="ex">new</span> file:   .dvcignore</a></code></pre></div>
+</div>
+<h2 id="configure-remote-storage">1.3. Configure remote storage</h2>
+<p>Reference: <a href="https://dvc.org/doc/command-reference/remote/add">dvc <code>add</code></a></p>
+<p>The remote storage in dvc can be <code>s3</code>, <code>gs</code>, <code>gdrive</code>, etc. For this example we’ll use a local folder <code>~/tmp/dvc-storage</code> for simplicity.</p>
+<div id="cb5" class="sourceCode">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># We&#39;ll add a location inside a local ~/tmp folder for testing </span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="ex">dvc</span> remote add -d dvc-remote ~/tmp/dvc-storage</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co"># You can also add GCP or other remote storage as the remote.</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># Please refer to https://dvc.org/doc/command-reference/remote/add </span></a></code></pre></div>
+</div>
+<p>This adds the following to the .dvc/config file</p>
+<div id="cb6" class="sourceCode">
+<div class="sourceCode" id="cb6"><pre class="sourceCode ini"><code class="sourceCode ini"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">[core]</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="dt">    remote </span><span class="ot">=</span><span class="st"> dvc-remote</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="kw">[&#39;remote &quot;dvc-remote&quot;&#39;]</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="dt">    url </span><span class="ot">=</span><span class="st"> /home/isuru/tmp/dvc-storage</span></a></code></pre></div>
+</div>
+<p>If you would like to add a remote storage like GCP, you can do so by:</p>
+<div id="cb7" class="sourceCode">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" title="1"><span class="ex">dvc</span> remote add -d gcp_bucket gs://dvc-mlflow-bucket</a></code></pre></div>
+</div>
+<h2 id="copy-some-data-and-let-dvc-manage-it">1.4. Copy some data and let dvc manage it</h2>
+<p>Let’s now copy some data to a local folder <code>data/</code></p>
+<div id="cb8" class="sourceCode">
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="fu">mkdir</span> data</a></code></pre></div>
+</div>
+<p>Copy an example file;</p>
+<p>For this we’ll copy <a href="https://github.com/mlflow/mlflow/blob/master/examples/sklearn_elasticnet_wine/wine-quality.csv">wine-quality.csv example file from mlflow</a> into the <a href="data/">data/</a> folder.</p>
+<div id="cb9" class="sourceCode">
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="fu">wget</span> --directory-prefix=data/ https://raw.githubusercontent.com/mlflow/mlflow/master/examples/sklearn_elasticnet_wine/wine-quality.csv</a></code></pre></div>
+</div>
+<p>Add the file to dvc:</p>
+<div id="cb10" class="sourceCode">
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" title="1"><span class="ex">dvc</span> add data/wine-quality.csv</a></code></pre></div>
+</div>
+<p>DVC creates a <a href="data/wine-quality.csv.dvc">wine-quality.csv.dvc</a> file and also adds a <a href="data/.gitignore">.gitignore</a> file inside the <code>data/</code> folder.</p>
+<p>Let’s also add a git tag to make it easier to track the data versions through git:</p>
+<div id="cb11" class="sourceCode">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># Add and commit:</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="fu">git</span> add data/wine-quality.csv.dvc data/.gitignore</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="fu">git</span> commit -m <span class="st">&quot;data: track&quot;</span></a>
+<a class="sourceLine" id="cb11-4" title="4"></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="fu">git</span> tag -a <span class="st">&#39;v1&#39;</span> -m <span class="st">&#39;raw data&#39;</span></a></code></pre></div>
+</div>
+<p>Now let’s sync our local data with our remote:</p>
+<div id="cb12" class="sourceCode">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" title="1"><span class="ex">dvc</span> push</a></code></pre></div>
+</div>
+<p>Let’s now see what’s inside our remote</p>
+<div id="cb13" class="sourceCode">
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"><span class="fu">ls</span> -lR ~/tmp/dvc-storage/</a></code></pre></div>
+</div>
+<p>This gives:</p>
+<div id="cb14" class="sourceCode">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="ex">/home/user/tmp/dvc-storage</span>/:</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="ex">total</span> 4</a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="ex">drwxrwxr-x</span> 2 user user 4096 Apr 13 14:47 5d</a>
+<a class="sourceLine" id="cb14-4" title="4"></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="ex">/home/user/tmp/dvc-storage</span>/5d:</a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="ex">total</span> 260</a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="ex">-r--r--r--</span> 1 user user 264426 Apr 13 14:47 6f24258e3c50bb01a61194b5401f5d</a></code></pre></div>
+</div>
+<p>Now, we can remove the local data if required:</p>
+<div id="cb15" class="sourceCode">
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" title="1"><span class="fu">rm</span> -rf data/wine-quality.csv</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co"># Let&#39;s remove the data from .dvc/cache too</span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="fu">rm</span> -rf .dvc/cache</a></code></pre></div>
+</div>
+<h2 id="fetching-data-from-remote">1.5. Fetching data from remote</h2>
+<p>Since we deleted our data in the section above, we can bring them back from remote using <code>dvc pull</code></p>
+<div id="cb16" class="sourceCode">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" title="1"><span class="ex">dvc</span> pull</a></code></pre></div>
+</div>
+<h2 id="modifying-data">1.6. Modifying data</h2>
+<div id="cb17" class="sourceCode">
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># Let&#39;s do a simple modification to our csv file</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="fu">sed</span> -i <span class="st">&#39;2,1001d&#39;</span> data/wine-quality.csv</a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="co"># let&#39;s check dvc status</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="ex">dvc</span> status</a></code></pre></div>
+</div>
+<p><code>dvc status</code> command shows that our file was changed:</p>
+<div id="cb18" class="sourceCode">
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="ex">data</span>/wine-quality.csv.dvc:                                            </a>
+<a class="sourceLine" id="cb18-2" title="2">        <span class="ex">changed</span> outs:</a>
+<a class="sourceLine" id="cb18-3" title="3">                <span class="ex">modified</span>:           data/wine-quality.csv</a></code></pre></div>
+</div>
+<p>Now let’s add the new data file to dvc:</p>
+<div id="cb19" class="sourceCode">
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" title="1"><span class="ex">dvc</span> add data/wine-quality.csv</a></code></pre></div>
+</div>
+<p>Now let’s do a git commit:</p>
+<div id="cb20" class="sourceCode">
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" title="1"><span class="fu">git</span> add data/wine-quality.csv.dvc</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="fu">git</span> commit -m <span class="st">&quot;data: remove 1000 lines&quot;</span></a></code></pre></div>
+</div>
+<p>Let’s also add a git tag:</p>
+<div id="cb21" class="sourceCode">
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" title="1"><span class="fu">git</span> tag -a <span class="st">&#39;v2&#39;</span> -m <span class="st">&#39;removed 1000 lines&#39;</span></a></code></pre></div>
+</div>
+<p>Let’s also push our data to remote storage:</p>
+<div id="cb22" class="sourceCode">
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="ex">dvc</span> push</a></code></pre></div>
+</div>
+<p>Also remember to push your tag to the remote repo by doing <code>git push --tags</code>.</p>
+<h2 id="using-different-data-versions">1.7. Using different data versions</h2>
+<h3 id="in-python">1.7.1. In python</h3>
+<div id="cb23" class="sourceCode">
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" title="1"><span class="im">import</span> dvc.api</a>
+<a class="sourceLine" id="cb23-2" title="2"></a>
+<a class="sourceLine" id="cb23-3" title="3">data_url <span class="op">=</span> dvc.api.get_url(</a>
+<a class="sourceLine" id="cb23-4" title="4">        path <span class="op">=</span> <span class="st">&#39;data/wine-quality.csv&#39;</span>,</a>
+<a class="sourceLine" id="cb23-5" title="5">        repo <span class="op">=</span> <span class="st">&#39;.&#39;</span>,</a>
+<a class="sourceLine" id="cb23-6" title="6">        <span class="co"># You can use different values for rev here.</span></a>
+<a class="sourceLine" id="cb23-7" title="7">        <span class="co"># This can be any revision such as a branch tag name or a comit hash</span></a>
+<a class="sourceLine" id="cb23-8" title="8">        <span class="co"># ref: https://dvc.org/doc/api-reference/get_url</span></a>
+<a class="sourceLine" id="cb23-9" title="9">        rev <span class="op">=</span> <span class="st">&#39;v2&#39;</span></a>
+<a class="sourceLine" id="cb23-10" title="10">    )</a>
+<a class="sourceLine" id="cb23-11" title="11"></a>
+<a class="sourceLine" id="cb23-12" title="12"><span class="co"># Then you can use the data in your favourite tool, eg: pandas;</span></a>
+<a class="sourceLine" id="cb23-13" title="13">data <span class="op">=</span> pd.read_csv(data_url)</a></code></pre></div>
+</div>
+<h3 id="using-dvc-command-line">1.7.2. Using dvc command line</h3>
+<p><code>git checkout</code> combined with <code>dvc checkout</code> is one way to do this. Please refer to <a href="https://dvc.org/doc/command-reference/checkout">dvc checkout documentation</a> for more info.</p>
+<h2 id="usage-with-mlflow">1.8. Usage with MLFlow</h2>
+<p>For this, we’ll use <a href="https://github.com/mlflow/mlflow/blob/master/examples/sklearn_elasticnet_wine/train.py">this file from mlflow examples</a>.</p>
+<p>This file has been downloaded to <a href="train.py">train.py</a>. ( <a href="https://github.com/mlflow/mlflow/blob/d743a40426d5dedbde395a4e6bbdeebadbccd4dc/examples/sklearn_elasticnet_wine/train.py">exact same version of file used can be accessed through this link</a> )</p>
+<p>This guide shows <strong>one</strong> of the many ways you can use mlflow and dvc together. However, please note that these two tools also have some overlaps between their features which allow you to use these tools in many other different ways (either together or independently). Please follow the docs for <a href="">mlflow</a> and <a href="">dvc</a> for more info.</p>
+<p>MLFlow allows to track hyperparameters, performance metrics, using a helpful python package. Values of python variables can be tracked across different runs by using the <code>log_param</code> function.</p>
+<div id="cb24" class="sourceCode">
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb24-1" title="1">mlflow.log_param(<span class="st">&#39;data_url&#39;</span>, data_url)</a>
+<a class="sourceLine" id="cb24-2" title="2">mlflow.log_param(<span class="st">&#39;data_version&#39;</span>, VERSION)</a>
+<a class="sourceLine" id="cb24-3" title="3">mlflow.log_param(<span class="st">&#39;input_rows&#39;</span>, data.shape[<span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb24-4" title="4">mlflow.log_param(<span class="st">&#39;input_cols&#39;</span>, data.shape[<span class="dv">1</span>]) </a></code></pre></div>
+</div>
+<p>MLFLow runs can be recorded using the following different methods [<a href="https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded">ref</a>]:</p>
+<ul>
+<li>Local file path</li>
+<li>SQL db</li>
+<li>MLflow tracking server</li>
+<li>Databricks workspace</li>
+</ul>
+<p>For this example we’ll use a local file method. This is the easiest way to do things. But if we want to track and share our experiments with colleagues, using one of the <a href="https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded">other</a> supported methods to store experiment data is recommended.</p>
+<p>Now let’s try two different experiments with two different versions of data:</p>
+<p>open <a href="train.py">train.py</a> and find the following constants (lines 25 to 28):</p>
+<div id="cb25" class="sourceCode">
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" title="1"><span class="co"># Constants for dvc</span></a>
+<a class="sourceLine" id="cb25-2" title="2">PATH <span class="op">=</span> <span class="st">&#39;data/wine-quality.csv&#39;</span></a>
+<a class="sourceLine" id="cb25-3" title="3">REPO <span class="op">=</span> <span class="st">&#39;.&#39;</span> <span class="co"># Path to the Git repo</span></a>
+<a class="sourceLine" id="cb25-4" title="4">VERSION <span class="op">=</span> <span class="st">&#39;v2&#39;</span> <span class="co"># This is the GitHub tag corresponding to the data version</span></a></code></pre></div>
+</div>
+<p>The <code>VERSION</code> constant here defines the GitHub tag associated with the data version we want to use. Run <a href="train.py">train.py</a> (<code>python train.py</code>) and see the results, now change the <code>VERSION</code> constant to <code>VERSION=v1</code> and run <a href="train.py">train.py</a> again. You can see based on the results that a different data version has been used.</p>
+<p>You can now open the MLFlow ui by running,</p>
+<div id="cb26" class="sourceCode">
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" title="1"><span class="co"># activate virtual environment if you haven&#39;t already</span></a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="co"># . ./venv/bin/activate</span></a>
+<a class="sourceLine" id="cb26-3" title="3"></a>
+<a class="sourceLine" id="cb26-4" title="4"><span class="ex">mlflow</span> ui</a></code></pre></div>
+</div>
+<p>And visit http://127.0.0.1:5000/ to view experiments.</p>
+<h1 id="appendix">2. Appendix</h1>
+<h2 id="setting-up-python-environment-from-scratch">2.1. Setting up Python environment from scratch</h2>
+<p>This section shows how to create the development environment from scratch.</p>
+<p>Create virtual environment:</p>
+<div id="cb27" class="sourceCode">
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" title="1"><span class="ex">python</span> -m venv venv</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="bu">.</span> <span class="ex">./venv/bin/activate</span></a></code></pre></div>
+</div>
+<p>Install dependencies:</p>
+<div id="cb28" class="sourceCode">
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" title="1"><span class="ex">pip</span> install mlflow</a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="co"># dvc has many installation options such as [all], [s3], [gdrive], etc.</span></a>
+<a class="sourceLine" id="cb28-3" title="3"><span class="co"># Please refer to: https://dvc.org/doc/install/linux</span></a>
+<a class="sourceLine" id="cb28-4" title="4"><span class="ex">pip</span> install dvc[gs]</a>
+<a class="sourceLine" id="cb28-5" title="5"></a>
+<a class="sourceLine" id="cb28-6" title="6"><span class="co"># Dependencies for the MLFlow, DVC combined tutorial</span></a>
+<a class="sourceLine" id="cb28-7" title="7"><span class="ex">pip</span> install scikit-learn</a></code></pre></div>
+</div>
+<p>Freeze dependencies:</p>
+<div id="cb29" class="sourceCode">
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="ex">pip</span> freeze <span class="op">&gt;</span> requirements.txt</a></code></pre></div>
+</div>
+<h2 id="setting-up-gsutil-if-you-are-using-gcp-storage-as-a-remote">2.2. Setting up gsutil if you are using GCP storage as a remote</h2>
+<p>Please refer to <a href="https://cloud.google.com/sdk/docs/install#deb">this guide</a> to install and setup <code>gsutil</code> and make sure you are logged in.</p>
+<p>Please refer to the relevent GCP section in <a href="https://dvc.org/doc/command-reference/remote/add">this guide</a> to see the most up to date information about setting up gcp credentials.</p>
+<h1 id="references">3. References</h1>
+<ol type="1">
+<li><a href="https://www.youtube.com/watch?v=W2DvpCYw22o&amp;t">Data Versioning and Reproducible ML with DVC and MLflow - Youtube</a></li>
+</ol>
+<p># Tutorial on how to use DVC and MLFlow The code for this tutorial can be found [here](https://github.com/isuruwg/dvc-and-mlflow-tutorial) # TOC - [1. An example using DVC and MLFlow](#1-an-example-using-dvc-and-mlflow) - [1.1. Environment setup](#11-environment-setup) - [1.2. Initialize DVC](#12-initialize-dvc) - [1.3. Configure remote storage](#13-configure-remote-storage) - [1.4. Copy some data and let dvc manage it](#14-copy-some-data-and-let-dvc-manage-it) - [1.5. Fetching data from remote](#15-fetching-data-from-remote) - [1.6. Modifying data](#16-modifying-data) - [1.7. Using different data versions](#17-using-different-data-versions) - [1.7.1. In python](#171-in-python) - [1.7.2. Using dvc command line](#172-using-dvc-command-line) - [1.8. Usage with MLFlow](#18-usage-with-mlflow) - [2. Appendix](#2-appendix) - [2.1. Setting up Python environment from scratch](#21-setting-up-python-environment-from-scratch) - [2.2. Setting up gsutil if you are using GCP storage as a remote](#22-setting-up-gsutil-if-you-are-using-gcp-storage-as-a-remote) - [3. References](#3-references) # 1. An example using DVC and MLFlow This is based on [Data Versioning and Reproducible ML with DVC and MLflow - Youtube](https://www.youtube.com/watch?v=W2DvpCYw22o&amp;t). This is just one example on how to use DVC and MLFlow. These tools can be used in many other ways. Please refer to the [dvc](https://dvc.org/doc/start) and [mlflow](https://www.mlflow.org/docs/latest/tutorials-and-examples/tutorial.html) official tutorials for more info. ## 1.1. Environment setup This tutorial was tested with Python 3.9.2. Create virtual environment: ```bash python -m venv venv . ./venv/bin/activate ``` Install requirements: ```bash pip install -r requirements.txt ``` ## 1.2. Initialize DVC This guide assumes you are already inside a git repo. If not, please initialize a git repo by doing `git init` or some other method. Run: ```bash dvc init ``` This initializes dvc and also adds some of the newly created files to git staging. If you run `git status` it'll show something like: ```bash Changes to be committed: (use "git restore --staged ..." to unstage) new file: .dvc/.gitignore new file: .dvc/config new file: .dvc/plots/confusion.json new file: .dvc/plots/confusion_normalized.json new file: .dvc/plots/default.json new file: .dvc/plots/linear.json new file: .dvc/plots/scatter.json new file: .dvc/plots/smooth.json new file: .dvcignore ``` ## 1.3. Configure remote storage Reference: [dvc `add`](https://dvc.org/doc/command-reference/remote/add) The remote storage in dvc can be `s3`, `gs`, `gdrive`, etc. For this example we'll use a local folder `~/tmp/dvc-storage` for simplicity. ```bash # We'll add a location inside a local ~/tmp folder for testing dvc remote add -d dvc-remote ~/tmp/dvc-storage # You can also add GCP or other remote storage as the remote. # Please refer to https://dvc.org/doc/command-reference/remote/add ``` This adds the following to the .dvc/config file ```ini [core] remote = dvc-remote ['remote "dvc-remote"'] url = /home/isuru/tmp/dvc-storage ``` If you would like to add a remote storage like GCP, you can do so by: ```bash dvc remote add -d gcp_bucket gs://dvc-mlflow-bucket ``` ## 1.4. Copy some data and let dvc manage it Let's now copy some data to a local folder `data/` ```bash mkdir data ``` Copy an example file; For this we'll copy [wine-quality.csv example file from mlflow](https://github.com/mlflow/mlflow/blob/master/examples/sklearn_elasticnet_wine/wine-quality.csv) into the [data/](data/) folder. ```bash wget --directory-prefix=data/ https://raw.githubusercontent.com/mlflow/mlflow/master/examples/sklearn_elasticnet_wine/wine-quality.csv ``` Add the file to dvc: ```bash dvc add data/wine-quality.csv ``` DVC creates a [wine-quality.csv.dvc](data/wine-quality.csv.dvc) file and also adds a [.gitignore](data/.gitignore) file inside the `data/` folder. Let's also add a git tag to make it easier to track the data versions through git: ```bash # Add and commit: git add data/wine-quality.csv.dvc data/.gitignore git commit -m "data: track" git tag -a 'v1' -m 'raw data' ``` Now let's sync our local data with our remote: ```bash dvc push ``` Let's now see what's inside our remote ```bash ls -lR ~/tmp/dvc-storage/ ``` This gives: ```bash /home/user/tmp/dvc-storage/: total 4 drwxrwxr-x 2 user user 4096 Apr 13 14:47 5d /home/user/tmp/dvc-storage/5d: total 260 -r--r--r-- 1 user user 264426 Apr 13 14:47 6f24258e3c50bb01a61194b5401f5d ``` Now, we can remove the local data if required: ```bash rm -rf data/wine-quality.csv # Let's remove the data from .dvc/cache too rm -rf .dvc/cache ``` ## 1.5. Fetching data from remote Since we deleted our data in the section above, we can bring them back from remote using `dvc pull` ```bash dvc pull ``` ## 1.6. Modifying data ```bash # Let's do a simple modification to our csv file sed -i '2,1001d' data/wine-quality.csv # let's check dvc status dvc status ``` `dvc status` command shows that our file was changed: ```bash data/wine-quality.csv.dvc: changed outs: modified: data/wine-quality.csv ``` Now let's add the new data file to dvc: ```bash dvc add data/wine-quality.csv ``` Now let's do a git commit: ```bash git add data/wine-quality.csv.dvc git commit -m "data: remove 1000 lines" ``` Let's also add a git tag: ```bash git tag -a 'v2' -m 'removed 1000 lines' ``` Let's also push our data to remote storage: ```bash dvc push ``` Also remember to push your tag to the remote repo by doing `git push --tags`. ## 1.7. Using different data versions ### 1.7.1. In python ```python import dvc.api data_url = dvc.api.get_url( path = 'data/wine-quality.csv', repo = '.', # You can use different values for rev here. # This can be any revision such as a branch tag name or a comit hash # ref: https://dvc.org/doc/api-reference/get_url rev = 'v2' ) # Then you can use the data in your favourite tool, eg: pandas; data = pd.read_csv(data_url) ``` ### 1.7.2. Using dvc command line `git checkout` combined with `dvc checkout` is one way to do this. Please refer to [dvc checkout documentation](https://dvc.org/doc/command-reference/checkout) for more info. ## 1.8. Usage with MLFlow For this, we'll use [this file from mlflow examples](https://github.com/mlflow/mlflow/blob/master/examples/sklearn_elasticnet_wine/train.py). This file has been downloaded to [train.py](train.py). ( [exact same version of file used can be accessed through this link](https://github.com/mlflow/mlflow/blob/d743a40426d5dedbde395a4e6bbdeebadbccd4dc/examples/sklearn_elasticnet_wine/train.py) ) This guide shows **one** of the many ways you can use mlflow and dvc together. However, please note that these two tools also have some overlaps between their features which allow you to use these tools in many other different ways (either together or independently). Please follow the docs for [mlflow]() and [dvc]() for more info. MLFlow allows to track hyperparameters, performance metrics, using a helpful python package. Values of python variables can be tracked across different runs by using the `log_param` function. ```python mlflow.log_param('data_url', data_url) mlflow.log_param('data_version', VERSION) mlflow.log_param('input_rows', data.shape[0]) mlflow.log_param('input_cols', data.shape[1]) ``` MLFLow runs can be recorded using the following different methods [[ref](https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded)]: - Local file path - SQL db - MLflow tracking server - Databricks workspace For this example we'll use a local file method. This is the easiest way to do things. But if we want to track and share our experiments with colleagues, using one of the [other](https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded) supported methods to store experiment data is recommended. Now let's try two different experiments with two different versions of data: open [train.py](train.py) and find the following constants (lines 25 to 28): ```python # Constants for dvc PATH = 'data/wine-quality.csv' REPO = '.' # Path to the Git repo VERSION = 'v2' # This is the GitHub tag corresponding to the data version ``` The `VERSION` constant here defines the GitHub tag associated with the data version we want to use. Run [train.py](train.py) (`python train.py`) and see the results, now change the `VERSION` constant to `VERSION=v1` and run [train.py](train.py) again. You can see based on the results that a different data version has been used. You can now open the MLFlow ui by running, ```bash # activate virtual environment if you haven't already # . ./venv/bin/activate mlflow ui ``` And visit http://127.0.0.1:5000/ to view experiments. # 2. Appendix ## 2.1. Setting up Python environment from scratch This section shows how to create the development environment from scratch. Create virtual environment: ```bash python -m venv venv . ./venv/bin/activate ``` Install dependencies: ```bash pip install mlflow # dvc has many installation options such as [all], [s3], [gdrive], etc. # Please refer to: https://dvc.org/doc/install/linux pip install dvc[gs] # Dependencies for the MLFlow, DVC combined tutorial pip install scikit-learn ``` Freeze dependencies: ```bash pip freeze &gt; requirements.txt ``` ## 2.2. Setting up gsutil if you are using GCP storage as a remote Please refer to [this guide](https://cloud.google.com/sdk/docs/install#deb) to install and setup `gsutil` and make sure you are logged in. Please refer to the relevent GCP section in [this guide](https://dvc.org/doc/command-reference/remote/add) to see the most up to date information about setting up gcp credentials. # 3. References 1. [Data Versioning and Reproducible ML with DVC and MLflow - Youtube](https://www.youtube.com/watch?v=W2DvpCYw22o&amp;t)</p>
