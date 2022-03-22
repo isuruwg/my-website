@@ -34,7 +34,7 @@ repos:
       language: system
       pass_filenames: false
 
-  # convert app/blog/templates/markdown/*.html to app/blog/templates/markdown/*.md
+  # convert app/blog/templates/markdown/*.md to app/blog/templates/markdown/*.html
   # Please make sure you have pandoc installed (sudo apt install pandoc)
   - repo: local
     hooks:
@@ -42,5 +42,16 @@ repos:
       name: convert-blog-md-to-html
       description: 'convert app/blog/markdown/*.md to app/blog/markdown/*.html'
       entry: bash -c 'pandoc -o app/blog/templates/markdown/*.html app/blog/templates/markdown/*.md'
+      language: system
+      pass_filenames: false
+
+  # Create base links for the blog
+  # Please make sure tree is installed (sudo apt install tree)
+  - repo: local
+    hooks:
+    - id: create-blog-base-page
+      name: create-blog-base-page
+      description: 'Create the base links for the blog home page based on files inside app/blog/templates/markdown/'
+      entry: bash -c 'cd app/blog/templates/markdown/ && tree -H 'https://isuru.ca/blog' --noreport --charset utf-8 -P "*.html" -I "blog_index.html" -o ../blog_index.html'
       language: system
       pass_filenames: false
