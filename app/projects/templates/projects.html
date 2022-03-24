@@ -1,2 +1,10 @@
 {% extends 'layout.html' %}
 {% block title %}My Projects{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    {% include 'markdown/projects_list.html' %}
+</div>
+
+{% endblock %}
