@@ -4,9 +4,11 @@ I'm a machine learning engineer with diverse experience in machine learning, CI/
 
 You can find more details about me at:
 
-[CV](https://isuru.ca/cv.pdf)  
-[GitHub](https://github.com/isuruwg)  
-[LinkedIn](https://www.linkedin.com/in/isurug/)
+- [CV](https://isuru.ca/cv.pdf)  
+- [GitHub](https://github.com/isuruwg)  
+- [LinkedIn](https://www.linkedin.com/in/isurug/)
+- [My Projects](https://isuru.ca/projects)
+- [Blog](https://isuru.ca/blog)
 
 # TOC <!-- omit in toc -->
 
