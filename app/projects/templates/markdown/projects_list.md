@@ -22,7 +22,7 @@
 	
 **[US11163947B2](https://patents.google.com/patent/US11163947B2/en)**
 
-Led the team that developed a novel multi-label classification method that utilizes soft labelling and stacking of multiple models to improve text classification performance}
+Led the team that developed a novel multi-label classification method that utilizes soft labelling and stacking of multiple models to improve text classification performance
 
 ## 1.2. Enhancing PIO Element Detection in Medical Text Using Contextualized Embedding - 2019
 **[Published](https://aclanthology.org/W19-5023.pdf) in [BioNLP 2019 : 18th ACL Workshop on Biomedical Natural Language Processing](https://www.aclweb.org/portal/content/18th-sigbiomed-workshop-biomedical-natural-language-processing) in Florence, Italy**
