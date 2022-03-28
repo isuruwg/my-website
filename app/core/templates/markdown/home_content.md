@@ -10,7 +10,7 @@ You can find more details about me at:
 - [My Projects](https://isuru.ca/projects)
 - [Blog](https://isuru.ca/blog)
 
-# TOC <!-- omit in toc -->
+# Contents <!-- omit in toc -->
 
 - [1. CV](#1-cv)
 - [2. Source for this website](#2-source-for-this-website)
