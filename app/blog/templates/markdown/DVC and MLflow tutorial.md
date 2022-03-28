@@ -2,8 +2,8 @@
 
 The code for this tutorial can be found [here](https://github.com/isuruwg/dvc-and-mlflow-tutorial)
 
-# Contents <!-- omit in toc -->
-- [1. Introduction](#1-introduction)
+# TOC <!-- omit in toc -->
+- [1. An example using DVC and MLFlow](#1-an-example-using-dvc-and-mlflow)
   - [1.1. Environment setup](#11-environment-setup)
   - [1.2. Initialize DVC](#12-initialize-dvc)
   - [1.3. Configure remote storage](#13-configure-remote-storage)
@@ -19,13 +19,11 @@ The code for this tutorial can be found [here](https://github.com/isuruwg/dvc-an
   - [2.2. Setting up gsutil if you are using GCP storage as a remote](#22-setting-up-gsutil-if-you-are-using-gcp-storage-as-a-remote)
 - [3. References](#3-references)
 
-# 1. Introduction
-
-This introductory tutorial will walk you through how to track different versions of your datasets using DVC and tracking experiments (hyperparameters, results, datasets used, etc.) using MLFlow. This walkthrough is designed to give a quick idea of how to use both these tools. However, since there are some overlaps in the features of DVC and MLFlow, you can use just one tool or the other for your applications too to achieve similar results. 
+# 1. An example using DVC and MLFlow 
 
 This is based on [Data Versioning and Reproducible ML with DVC and MLflow - Youtube](https://www.youtube.com/watch?v=W2DvpCYw22o&t).
 
-Please refer to the [dvc](https://dvc.org/doc/start) and [mlflow](https://www.mlflow.org/docs/latest/tutorials-and-examples/tutorial.html) official tutorials for more info.
+This is just one example on how to use DVC and MLFlow. These tools can be used in many other ways. Please refer to the [dvc](https://dvc.org/doc/start) and [mlflow](https://www.mlflow.org/docs/latest/tutorials-and-examples/tutorial.html) official tutorials for more info.
 
 ## 1.1. Environment setup
 
