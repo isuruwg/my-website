@@ -20,6 +20,7 @@ Currently, this is a mostly static website. This doesn't technically need to be 
   - [5.1. Test production packages](#51-test-production-packages)
   - [5.2. Test development packages](#52-test-development-packages)
   - [5.3. Run cloudbuild locally to see if everything looks good](#53-run-cloudbuild-locally-to-see-if-everything-looks-good)
+- [5.3. Deploy locations](#53-deploy-locations)
 
 
 
@@ -130,3 +131,16 @@ poetry update
 ## 5.3. Run cloudbuild locally to see if everything looks good
 
 `cloud-build-local --dryrun=false .`  (Refer to the [cloudbuild](#2-cloudbuild) section above for more info)
+
+# 5.3. Deploy locations
+You can find the `staging` branch deployed [here](https://staging-dot-isuru-backend.ue.r.appspot.com/)
+
+The `main` branch (production) can be found [here](https://isuru.ca/)
+
+This app is set up to automatically deploy based on pushes to the github repo. If you would like to manually deploy to staging (not recommended), please do:
+
+```
+gcloud app deploy app-staging.yaml
+# You can view the logs by running:
+gcloud app logs tail -s staging
+```
