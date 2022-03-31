@@ -1,4 +1,4 @@
-# TOC <!-- omit in toc -->
+# Contents <!-- omit in toc -->
 
 - [1. Patents and Publications](#1-patents-and-publications)
   - [1.1. Patent: Methods and systems for multi-label classification of text data - 2020](#11-patent-methods-and-systems-for-multi-label-classification-of-text-data---2020)
@@ -53,7 +53,7 @@ Developed a novel method for occupancy detection using Ultra Wide-band (UWB) rad
 
 # 2. Projects
 
-This section is still under construction
+**This section is still under construction**
 
 ## 2.1. Speech to speech translation
 
@@ -65,7 +65,7 @@ This section is still under construction
 
 ## 2.5. Autonomous inventory robot
 
-Developed a robot capable of of autonomously navigating inside a retail store environment while avoiding obstacles and taking inventory of RFID tagged merchandise for Kohl's US. This robot also won the following awards:
+Developed a robot capable of of autonomously navigating inside a retail store environment while avoiding obstacles and taking inventory of RFID tagged merchandise for a fortune 500 retailer. This robot also won the following awards:
 - Winner in the Research and Development category and the winner of the overall gold award in the National Best Quality ICT Awards Sri Lanka, 2015 organized by the British Computer Society (BCS).
 - Winner of the Asia Pacific ICT Alliance Awards 2015 (APICTA 2015 Awards) in the Research and Development category. The Asia Pacific ICT Alliance is an alliance between 16 member countries in the Asia Pacific region and the autonomous inventory robot won the gold award competing with 11 teams from Australia, China, Hong Kong, Malaysia, Thailand, Taiwan and Indonesia.
 
