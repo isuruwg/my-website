@@ -7,7 +7,7 @@ This GitHub repository contains the code used in my personal website [isuru.ca](
 
 Currently, this is a mostly static website. This doesn't technically need to be hosted on GCP and it also doesn't have to be a Flask app (There are much easier ways to host static websites). I just had some extra GCP credits and also want to be able to extend this in the future with more cooler things (eg: logging into my home automation system)
 
-# TOC <!-- omit in toc -->
+# Contents <!-- omit in toc -->
 
 - [1. Set up instructions for setting things up from scratch](#1-set-up-instructions-for-setting-things-up-from-scratch)
   - [1.1. Python environment management](#11-python-environment-management)
@@ -129,4 +129,4 @@ poetry update
 
 ## 5.3. Run cloudbuild locally to see if everything looks good
 
-`cloud-build-local --dryrun=false .`  (Refer to [3. CloudBuild](#3-cloudbuild) for more info)
+`cloud-build-local --dryrun=false .`  (Refer to the [cloudbuild](#2-cloudbuild) section above for more info)

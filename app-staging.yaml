@@ -22,3 +22,12 @@ basic_scaling:
   idle_timeout: 10m
 
 instance_class: B1
+
+# Items that are different between production and staging
+
+# I'm using a separate service inside app engine to deploy staging. 
+# This is ok since I'm the only person who has access to the gcp project. But if you have multiple developers 
+# working on your project, please consider having separate projects to maintain proper access controls per developer.
+service: staging
+
+# END Items that are different between production and staging

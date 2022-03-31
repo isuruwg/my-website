@@ -9,7 +9,6 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
             <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-            <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
         </head>
     {% endblock head %}
 
@@ -22,11 +21,9 @@
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <a class="navbar-brand title" href="{{ url_for('core.home_page') }}">Isuru Gunasekara</a>
-
                 <ul class="nav navbar-nav pull-right nav-list">
                     <li><a href="{{ url_for('core.home_page') }}"> Home </a></li>
                     <li><a href="{{ url_for('projects.projects_page') }}"> Projects </a></li>
-                    <li><a href="cv.pdf"> CV </a></li>
                     <li><a href="{{ url_for('blog.blog_root_page') }}"> Blog </a></li>
                 </ul>
             </div>
