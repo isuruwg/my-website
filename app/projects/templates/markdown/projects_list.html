@@ -11,13 +11,14 @@
 <li><a href="#2-projects">2. Projects</a>
 <ul>
 <li><a href="#21-speech-to-speech-translation">2.1. Speech to speech translation</a></li>
-<li><a href="#22-uwb-radar-based-breathing-rate-detection">2.2. UWB Radar based breathing rate detection</a></li>
-<li><a href="#23-toxic-comment-classification-engine">2.3. Toxic comment classification engine</a></li>
-<li><a href="#24-ultra-low-power-display-driver-for-bi-stable-displays">2.4. Ultra low power display driver for bi-stable displays</a></li>
+<li><a href="#22-portable-speech-transcription-models">2.2. Portable speech transcription models</a></li>
+<li><a href="#23-uwb-radar-based-breathing-rate-detection">2.3. UWB Radar based breathing rate detection</a></li>
+<li><a href="#24-toxic-comment-classification-engine">2.4. Toxic comment classification engine</a></li>
 <li><a href="#25-autonomous-inventory-robot">2.5. Autonomous inventory robot</a></li>
 <li><a href="#26-telepresence-robot">2.6. Telepresence robot</a></li>
-<li><a href="#27-fpga-based-image-enhancement-and-object-detection-system">2.7. FPGA based image enhancement and object detection system.</a></li>
-<li><a href="#28-fpga-based-hdmi-transmitter-and-receiver-module">2.8. FPGA based HDMI transmitter and receiver module.</a></li>
+<li><a href="#27-ultra-low-power-display-driver-for-bi-stable-displays">2.7. Ultra low power display driver for bi-stable displays</a></li>
+<li><a href="#28-fpga-based-image-enhancement-and-object-detection-system">2.8. FPGA based image enhancement and object detection system.</a></li>
+<li><a href="#29-fpga-based-hdmi-transmitter-and-receiver-module">2.9. FPGA based HDMI transmitter and receiver module.</a></li>
 </ul></li>
 </ul>
 <h1 id="patents-and-publications">1. Patents and Publications</h1>
@@ -37,15 +38,23 @@
 <p><strong><a href="https://ieeexplore.ieee.org/document/8053237">Published</a> in the <a href="https://ieee-cas.org/conference/2017-ieee-60th-international-midwest-symposium-circuits-and-systems-mwscas">60th International Midwest Symposium on Circuits and Systems (MWSCAS)</a> in Medford, MA, US</strong></p>
 <p>Developed a novel method for occupancy detection using Ultra Wide-band (UWB) radar. The developed algorithm is able to distinguish two people separated by only 0.8m with 86% accuracy while also being able to detect binary occupancy 100% of the time</p>
 <h1 id="projects">2. Projects</h1>
-<p><strong>This section is still under construction</strong></p>
 <h2 id="speech-to-speech-translation">2.1. Speech to speech translation</h2>
-<h2 id="uwb-radar-based-breathing-rate-detection">2.2. UWB Radar based breathing rate detection</h2>
-<h2 id="toxic-comment-classification-engine">2.3. Toxic comment classification engine</h2>
-<h2 id="ultra-low-power-display-driver-for-bi-stable-displays">2.4. Ultra low power display driver for bi-stable displays</h2>
+<p>Led a team of 9 engineers to successfully deliver Android applications for <strong>offline speech to speech translation</strong> on 5 different languages. Achieved speech to text Word Error Rates between 7% to 12% and translation BLEU scores above 52 for all languages.</p>
+<p>As the application required to be run offline without any network access, all the models used for speech transcription, text to text translation and text to speech needed to be stored on device and loaded to memory when the application is used. Therefore, models trained using high performance NVIDIA GPUs had to be compressed without severely affecting performance in order to be able to fit them in the storage and RAM of a mobile phone and also allow fast loading times. All models were compressed and optimized to reduce loading time to sub-seconds and execution time to near real time once the models are loaded.</p>
+<p>Each language required speech to text, text to text translation and text to speech models to be trained. Some of the languages for this application involved regional dialects and low resource languages with limited training data. In case of regional dialects, models were trained using more commonly used parent languages and optimized for regional dialects by fine tuning using a smaller dialect dataset.</p>
+<h2 id="portable-speech-transcription-models">2.2. Portable speech transcription models</h2>
+<p>Successfully delivered speech transcription models trained using unclassified data that can be run on unseen, classified data. The purpose of this project is to be able to train transcription models using public datasets that match a general criteria derived from classified data. This project allowed engineers to train and fine tune models that need to be run on classified data that cannot be accessed without special clearances. The models were made portable so that an analyst with proper clearance can run the trained models on classified data without requiring specialized knowledge about machine learning.</p>
+<h2 id="uwb-radar-based-breathing-rate-detection">2.3. UWB Radar based breathing rate detection</h2>
+<h2 id="toxic-comment-classification-engine">2.4. Toxic comment classification engine</h2>
 <h2 id="autonomous-inventory-robot">2.5. Autonomous inventory robot</h2>
 <p>Developed a robot capable of of autonomously navigating inside a retail store environment while avoiding obstacles and taking inventory of RFID tagged merchandise for a fortune 500 retailer. This robot also won the following awards: - Winner in the Research and Development category and the winner of the overall gold award in the National Best Quality ICT Awards Sri Lanka, 2015 organized by the British Computer Society (BCS). - Winner of the Asia Pacific ICT Alliance Awards 2015 (APICTA 2015 Awards) in the Research and Development category. The Asia Pacific ICT Alliance is an alliance between 16 member countries in the Asia Pacific region and the autonomous inventory robot won the gold award competing with 11 teams from Australia, China, Hong Kong, Malaysia, Thailand, Taiwan and Indonesia.</p>
+<p>The robot used wheel encoders for position estimation and a 2D LIDAR sensor for position correction using a particle filter algorithm. The 2D lidar and multiple 3D point cloud and sonar sensors were used for obstacle detection. The path planning was done using A* algorithm for global path planning and Dijkstra’s algorithm for local path planning.</p>
 <h2 id="telepresence-robot">2.6. Telepresence robot</h2>
-<h2 id="fpga-based-image-enhancement-and-object-detection-system.">2.7. FPGA based image enhancement and object detection system.</h2>
-<p>A system capable of receiving new images from a computer and processing them with various filters on an Altera Cyclone II FPGA and displaying them on an onboard LCD display was developed. An Altera NIOS II soft processor was used in conjunction with the hardware modules to handle image transmission, storage and display.</p>
-<h2 id="fpga-based-hdmi-transmitter-and-receiver-module.">2.8. FPGA based HDMI transmitter and receiver module.</h2>
+<p>A telepresence robot with two way video+audio+control connectivity along with the ability to avoid obstacles and navigate autonomously was developed. The autonomous navigation was developed by using wheel encoders for position estimation, 3D point cloud, sonar and infrared sensors for obstacle detection.</p>
+<h2 id="ultra-low-power-display-driver-for-bi-stable-displays">2.7. Ultra low power display driver for bi-stable displays</h2>
+<p>Built an ultra low power display driver capable of showing 12 gray levels on bi-stable displays. As the name suggests, bi-stable displays are usually only stable on two levels, black and white. An algorithm was developed using C and ARM assembly to run on an STM32F4 microcontroller in order to quickly change between the two stable levels in the display per pixel to be able to stabilize the display in intermediate levels between the two stable conditions.</p>
+<p>As the voltage in each pixel needs to be changed within a few nanoseconds in order to stabilize the display in intermediate levels, an optimized algorithm for converting an image into pixel level voltages was developed and a decompressed version of each image is saved in a dedicated NAND flash chip before sending the image to the display. After the decompression and voltage calculation is done for each image, a heavily optimized program written in ARM assembly reads the decompressed data and drives the display to stabilize it in the intermediate state for each pixel.</p>
+<h2 id="fpga-based-image-enhancement-and-object-detection-system.">2.8. FPGA based image enhancement and object detection system.</h2>
+<p>A system capable of receiving new images from a computer and processing them with various filters on an Altera Cyclone II FPGA was developed. An Altera NIOS II soft processor was used in conjunction with the hardware modules to handle image transmission, storage and display. Dedicated hardware modules were developed on FPGA using Verilog to process the receieved images parallely making the image processing significantly faster than processing them using general purpose microprocesssors.</p>
+<h2 id="fpga-based-hdmi-transmitter-and-receiver-module.">2.9. FPGA based HDMI transmitter and receiver module.</h2>
 <p>An HDMI transmitter module on a Xilinx Virtex 7 FPGA and a receiver module on a Xilinx SPARTAN 6 FPGA was developed.</p>
