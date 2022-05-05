@@ -133,7 +133,7 @@ poetry update
 `cloud-build-local --dryrun=false .`  (Refer to the [cloudbuild](#2-cloudbuild) section above for more info)
 
 # 5.3. Deploy locations
-You can find the `staging` branch deployed [here](https://staging-dot-isuru-backend.ue.r.appspot.com/)
+You can find the `staging` branch deployed [here](https://staging-dot-isuru-backend.ue.r.appspot.com/) (NOTE: Staging is usually shut down during times when active development is not happening)
 
 The `main` branch (production) can be found [here](https://isuru.ca/)
 
