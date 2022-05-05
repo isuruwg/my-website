@@ -21,7 +21,7 @@ The code for this tutorial can be found [here](https://github.com/isuruwg/dvc-an
 
 # 1. Introduction
 
-This introductory tutorial will walk you through how to track different versions of your datasets using DVC and tracking experiments (hyperparameters, results, datasets used, etc.) using MLFlow. This walkthrough is designed to give a quick idea of how to use both these tools. However, since there are some overlaps in the features of DVC and MLFlow, you can use just one tool or the other for your applications too to achieve similar results. 
+This introductory tutorial will walk you through how to track different versions of your datasets using DVC and experiments (hyperparameters, results, datasets used, etc.) using MLFlow. This walkthrough is designed to give a quick idea of how to use both these tools. However, since there are some overlaps in the features of DVC and MLFlow, you can use just one tool or the other for your applications too to achieve similar results. 
 
 This is based on [Data Versioning and Reproducible ML with DVC and MLflow - Youtube](https://www.youtube.com/watch?v=W2DvpCYw22o&t).
 
