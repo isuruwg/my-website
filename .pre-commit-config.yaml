@@ -13,7 +13,7 @@ repos:
     - id: update--dev-requirements-txt
       name: update--dev-requirements-txt
       description: 'Generate requirements-dev.txt based on poetry.lock'
-      entry: bash -c 'poetry export --dev --without-hashes --format "requirements.txt" --output "requirements-dev.txt"'
+      entry: bash -c 'poetry export --with dev --without-hashes --format "requirements.txt" --output "requirements-dev.txt"'
       language: system
       pass_filenames: false
 

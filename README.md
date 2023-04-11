@@ -118,6 +118,8 @@ Upgrade the affected versions by:
 
 ```bash
 poetry update --no-dev
+# export to requirements.txt file
+poetry export -f requirements.txt --output requirements.txt
 ```
 
 ## 5.2. Test development packages
@@ -125,7 +127,10 @@ poetry update --no-dev
 ```bash
 poetry shell
 python -m safety check -r requirements-dev.txt
+# Update packages
 poetry update
+# export to requirements-dev.txt
+poetry export -f requirements.txt --with dev --output requirements-dev.txt
 ```
 
 ## 5.3. Run cloudbuild locally to see if everything looks good
