@@ -1,5 +1,5 @@
 steps:
-- name: python:3.8
+- name: python:3.10.11
   id: INSTALL
   entrypoint: python3
   args:
@@ -11,7 +11,7 @@ steps:
   - '-r'
   - 'requirements-dev.txt'
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-LINTER-CHECK
   args:
@@ -24,7 +24,7 @@ steps:
   waitFor:
   - INSTALL
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-BANDIT-SECURITY-CHECK
   args:
@@ -36,7 +36,7 @@ steps:
   waitFor:
   - INSTALL
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-SAFETY-PROD-CHECK
   args:
@@ -48,7 +48,7 @@ steps:
   waitFor:
   - INSTALL
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-SAFETY-DEV-CHECK
   args:
@@ -60,7 +60,7 @@ steps:
   waitFor:
   - INSTALL
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-PYTEST
   args:
@@ -72,7 +72,7 @@ steps:
   waitFor:
   - INSTALL
 
-- name: python:3.8
+- name: python:3.10.11
   entrypoint: python3
   id: RUN-COVERAGE
   args:
