@@ -35,6 +35,7 @@ You can also set-up the environment without using poetry by using the provided [
 ```bash
 # Manual environment setup without using Poetry
 python -m venv venv
+. ./venv/bin/activate
 pip install -r requirements.txt # or use requirements-dev.txt as appropriate
 ```
 
