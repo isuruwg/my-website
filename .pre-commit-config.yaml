@@ -19,7 +19,7 @@ repos:
 
   # Check for hardcoded passwords, keys, tokens
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.5.0
+    rev: v8.19.3
     hooks:
       - id: gitleaks
 

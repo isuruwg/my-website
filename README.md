@@ -118,7 +118,7 @@ python -m safety check -r requirements.txt
 Upgrade the affected versions by:
 
 ```bash
-poetry update --no-dev
+poetry update --only main
 # export to requirements.txt file
 poetry export -f requirements.txt --without-hashes --output requirements.txt
 ```

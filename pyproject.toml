@@ -6,17 +6,17 @@ authors = ["Isuru Gunasekara <isuru@isuru.ca>"]
 license = "GNU AGPL V3"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-Flask = "^2.0.3"
+python = ">=3.9"
+Flask = ">=2.0.3"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^4.0.1"
-bandit = "^1.7.4"
-safety = "^2.2"
-pytest = "^7.1.1"
-coverage = "^6.3.2"
-black = "^22.1.0"
-pre-commit = "^2.17.0"
+flake8 = ">=4.0.1"
+bandit = ">=1.7.4"
+safety = ">=2.2"
+pytest = ">=7.1.1"
+coverage = ">=6.3.2"
+black = ">=22.1.0"
+pre-commit = ">=2.17.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
