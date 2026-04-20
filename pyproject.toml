@@ -6,7 +6,7 @@ authors = ["Isuru Gunasekara <isuru@isuru.ca>"]
 license = "GNU AGPL V3"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.12"
 Flask = ">=2.0.3"
 
 [tool.poetry.dev-dependencies]
